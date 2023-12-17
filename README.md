@@ -1,16 +1,16 @@
-#Aplicație web pentru înregistrarea la disertație
+# Aplicație web pentru înregistrarea la disertație
 
-##Obiectiv
+## Obiectiv
 
 Realizarea unei aplicații web permite înregistrarea studenților la disertație.
 
-##Descriere
+## Descriere
 
 Aplicația trebuie să permită administrarea unor cereri de disertație.
 
 Platforma este bazată pe o aplicație web cu arhitectură de tip Single Page Application accesibilă în browser de pe desktop, dispozitive mobile sau tablete (considerând preferințele utilizatorului).
 
-##Funcționalități (minime)
+## Funcționalități (minime)
 
 - Aplicația are două feluri de utilizatori, studenți și profesori
 - Un profesor are o serie de sesiuni de înscriere, care nu se pot suprapune
