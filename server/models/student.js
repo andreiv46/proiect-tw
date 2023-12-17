@@ -24,7 +24,7 @@ const Student = db.define("Student", {
     type: Sequelize.STRING,
     allowNull: false,
   },
-  class: {
+  studentClass: {
     type: Sequelize.STRING,
     allowNull: false,
   },
