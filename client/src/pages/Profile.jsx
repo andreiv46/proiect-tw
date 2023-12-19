@@ -1,6 +1,10 @@
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 const Profile = () => {
   const navigate = useNavigate();
+
+  const { role, isLoggedIn } = useAuth();
+  console.log("Profile: ", role, isLoggedIn);
 
   const handleSubmit = (e) => {
     e.preventDefault();

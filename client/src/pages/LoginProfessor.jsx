@@ -2,14 +2,19 @@ import { ROLES } from "../../../server/config/constants";
 import Login from "../components/Login";
 import { useAuth } from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
-const LoginStudent = () => {
-  const { isLoggedin, login } = useAuth();
+const LoginProfessor = () => {
+  const { isLoggedIn, login } = useAuth();
   const navigate = useNavigate();
 
-  if (isLoggedin) {
-    navigate("/profile");
-  }
+  console.log(isLoggedIn);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/profile");
+    }
+  }, [isLoggedIn, navigate]);
 
   const handleLogin = (user) => {
     const { email, password } = user;
@@ -48,4 +53,4 @@ const LoginStudent = () => {
   );
 };
 
-export default LoginStudent;
+export default LoginProfessor;

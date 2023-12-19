@@ -1,8 +1,8 @@
 import PrivateRoutes from "./Routes/PrivateRoutes.jsx";
 import LoginStudent from "./pages/LoginStudent.jsx";
+import LoginProfessor from "./pages/LoginProfessor.jsx";
 import Profile from "./pages/Profile.jsx";
 import Unauthorized from "./pages/Unauthorized.jsx";
-import LoginProfessor from "./pages/LoginProfessor.jsx";
 import Auth from "./pages/Auth.jsx";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import NavBar from "./components/NavBar.jsx";

@@ -10,7 +10,6 @@ export const AuthProvider = (props) => {
   useEffect(() => {
     setLoading(true);
     const token = localStorage.getItem("token");
-    console.log("AuthProvider mounted");
     if (token) {
       fetch("http://localhost:3000/auth/validateToken", {
         body: JSON.stringify({ token }),
@@ -31,9 +30,13 @@ export const AuthProvider = (props) => {
             console.log(data.error);
             logout();
           } else {
-            setRole(data.role);
-            setIsLoggedIn(true);
+            // setRole(data.role);
+            // setIsLoggedIn(true);
+            login(data.token, data.role);
           }
+        })
+        .catch((err) => {
+          console.log(err);
         })
         .finally(() => {
           setLoading(false);

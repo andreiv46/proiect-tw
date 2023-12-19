@@ -5,8 +5,6 @@ const PrivateRoutes = ({ allowedRole }) => {
   const token = localStorage.getItem("token");
   const { role, isLoggedIn, loading } = useAuth();
 
-  console.log("PrivateRoutes", role, isLoggedIn);
-
   if (loading) return <div>Loading...</div>;
 
   if (!isLoggedIn && !token) {
