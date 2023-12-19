@@ -3,4 +3,9 @@ const JWT_KEY =
 
 const PORT = 3000;
 
-export { JWT_KEY, PORT };
+const ROLES = {
+  STUDENT: 1234,
+  PROFESSOR: 2345,
+}
+
+export { JWT_KEY, PORT, ROLES};

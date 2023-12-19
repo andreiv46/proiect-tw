@@ -2,7 +2,7 @@ import Student from "../models/student.js";
 import Professor from "../models/professor.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { JWT_KEY } from "../config/constants.js";
+import { JWT_KEY, ROLES } from "../config/constants.js";
 
 export const registerStudent = async (req, res) => {
   try {
@@ -100,7 +100,7 @@ export const loginStudent = async (req, res) => {
     const student = await Student.findOne({ where: { email } });
 
     if (!student) {
-      return res.status(400).json({ message: "Student does not exist" });
+      return res.status(400).json({ message: "Invalid email" });
     }
 
     const validPassword = await bcrypt.compare(
@@ -115,7 +115,7 @@ export const loginStudent = async (req, res) => {
     const token = jwt.sign(
       {
         id: student.studentId,
-        role: "student",
+        role: ROLES.STUDENT,
         name: student.name,
         email: student.email,
         year: student.year,
@@ -143,7 +143,7 @@ export const loginProfessor = async (req, res) => {
     const professor = await Professor.findOne({ where: { email } });
 
     if (!professor) {
-      return res.status(400).json({ message: "Professor does not exist" });
+      return res.status(400).json({ message: "Invalid email" });
     }
 
     const validPassword = await bcrypt.compare(
@@ -158,7 +158,7 @@ export const loginProfessor = async (req, res) => {
     const token = jwt.sign(
       {
         id: professor.professorId,
-        role: "professor",
+        role: ROLES.PROFESSOR,
         name: professor.name,
         email: professor.email,
       },
@@ -166,6 +166,26 @@ export const loginProfessor = async (req, res) => {
       { expiresIn: "1h" }
     );
     return res.status(200).json({ message: "Login successful", token });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export const validateUserToken = async (req, res) => {
+  try {
+    const token = req.body.token;
+    if (!token) {
+      return res.status(401).json({ message: "No token provided" });
+    }
+    jwt.verify(token, JWT_KEY, (err, decodedToken) => {
+      if (err) {
+        return res.status(401).json({ message: "Invalid token" });
+      }
+      return res
+        .status(200)
+        .json({ message: "Valid token", token, role: decodedToken.role });
+    });
   } catch (err) {
     console.log(err);
     return res.status(500).json({ message: "Internal server error" });
