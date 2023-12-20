@@ -8,11 +8,9 @@ const LoginProfessor = () => {
   const { isLoggedIn, login } = useAuth();
   const navigate = useNavigate();
 
-  console.log(isLoggedIn);
-
   useEffect(() => {
     if (isLoggedIn) {
-      navigate("/profile");
+      navigate("/logout");
     }
   }, [isLoggedIn, navigate]);
 
@@ -48,7 +46,7 @@ const LoginProfessor = () => {
 
   return (
     <div>
-      <Login onLogin={handleLogin} />
+      <Login onLogin={handleLogin} userType="professor" />
     </div>
   );
 };
