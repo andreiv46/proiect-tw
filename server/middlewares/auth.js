@@ -1,4 +1,4 @@
-import { JWT_KEY } from "../config/constants.js";
+import { JWT_KEY, ROLES } from "../config/constants.js";
 import jwt from "jsonwebtoken";
 
 export const verifyToken = (req, res, next) => {
@@ -23,7 +23,8 @@ export const verifyToken = (req, res, next) => {
 
 export const verifyStudent = (req, res, next) => {
   verifyToken(req, res, () => {
-    if (req.decodedToken.role === "student") {
+    if (req.decodedToken.role === ROLES.STUDENT) {
+      req.body.studentId = req.decodedToken.id;
       next();
     } else {
       return res.status(403).json({ message: "Forbidden" });
@@ -33,7 +34,8 @@ export const verifyStudent = (req, res, next) => {
 
 export const verifyProfessor = (req, res, next) => {
   verifyToken(req, res, () => {
-    if (req.decodedToken.role === "professor") {
+    req.body.professorId = req.decodedToken.id;
+    if (req.decodedToken.role === ROLES.PROFESSOR) {
       next();
     } else {
       return res.status(403).json({ message: "Forbidden" });

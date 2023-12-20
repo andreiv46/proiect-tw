@@ -30,8 +30,6 @@ export const AuthProvider = (props) => {
             console.log(data.error);
             logout();
           } else {
-            // setRole(data.role);
-            // setIsLoggedIn(true);
             login(data.token, data.role);
           }
         })

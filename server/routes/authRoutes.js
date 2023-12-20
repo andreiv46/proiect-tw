@@ -15,4 +15,5 @@ authRouter.post("/student/login", loginStudent);
 authRouter.post("/professor/login", loginProfessor);
 authRouter.post("/validateToken", validateUserToken);
 
+
 export default authRouter;

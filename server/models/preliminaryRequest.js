@@ -1,6 +1,12 @@
 import db from "../config/database.js";
 import Sequelize from "sequelize";
 
+export const PRESTATUS = {
+  PENDING: "pending",
+  APPROVED: "approved",
+  REJECTED: "rejected",
+};
+
 const PreliminaryRequest = db.define("PreliminaryRequest", {
   preliminaryRequestId: {
     type: Sequelize.INTEGER,
@@ -20,6 +26,10 @@ const PreliminaryRequest = db.define("PreliminaryRequest", {
     allowNull: false,
   },
   description: {
+    type: Sequelize.STRING,
+    allowNull: true,
+  },
+  professorJustification: {
     type: Sequelize.STRING,
     allowNull: true,
   },

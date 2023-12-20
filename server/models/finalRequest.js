@@ -1,7 +1,13 @@
 import db from "../config/database.js";
 import Sequelize from "sequelize";
 
-const FinalRequest = db.define("FinalRequest", {
+export const FINAL_STATUS = {
+  PENDING: "PENDING",
+  ACCEPTED: "ACCEPTED",
+  REJECTED: "REJECTED",
+};
+
+export const FinalRequest = db.define("FinalRequest", {
   finalRequestId: {
     type: Sequelize.INTEGER,
     primaryKey: true,
@@ -28,4 +34,3 @@ const FinalRequest = db.define("FinalRequest", {
     allowNull: false,
   },
 });
-export default FinalRequest;
