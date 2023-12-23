@@ -1,4 +1,5 @@
 import EnrollmentSession from "../models/enrollmentSession.js";
+import Professor from "../models/professor.js";
 import { Op } from "sequelize";
 
 export const createEnrollmentSession = async (req, res) => {
@@ -11,8 +12,11 @@ export const createEnrollmentSession = async (req, res) => {
       return res.status(400).json({ message: "Malformed request" });
     }
 
+    const professor = await Professor.findByPk(professorId);
+
     const newEnrollmentSession = await EnrollmentSession.create({
       professorId: professorId,
+      professorName: professor.name,
       startTime: startTime,
       endTime: endTime,
       enrolledStudents: 0,
@@ -27,7 +31,7 @@ export const createEnrollmentSession = async (req, res) => {
       .status(201)
       .json({ message: "Enrollment session created", newEnrollmentSession });
   } catch (err) {
-    console.warn(err.message);
+    console.warn(err);
     res.status(500).json({ message: "Internal server issues" });
   }
 };
@@ -48,7 +52,7 @@ export const getActiveEnrollmentSessions = async (req, res) => {
 
     res.status(200).json({ activeEnrollmentSessions });
   } catch (err) {
-    console.log(err.message);
+    console.warn(err);
     res.status(500).json({ message: "Internal server issues" });
   }
 };

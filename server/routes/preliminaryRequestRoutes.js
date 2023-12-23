@@ -1,5 +1,6 @@
 import express from "express";
 import { verifyProfessor, verifyStudent } from "../middlewares/auth.js";
+import { verifyAssignedProfessor } from "../middlewares/preliminaryRequest.js";
 import {
   createPreliminaryRequest,
   acceptPreliminaryRequest,
@@ -12,6 +13,7 @@ const preliminaryRequestRouter = express.Router();
 preliminaryRequestRouter.post(
   "/create",
   verifyStudent,
+  verifyAssignedProfessor,
   createPreliminaryRequest
 );
 

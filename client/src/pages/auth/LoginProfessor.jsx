@@ -1,10 +1,10 @@
-import { ROLES } from "../../../server/config/constants";
-import Login from "../components/Login";
-import { useAuth } from "../hooks/useAuth";
+import { ROLES } from "../../../../server/config/constants";
+import Login from "../../components/Login";
+import { useAuth } from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
-const LoginStudent = () => {
+const LoginProfessor = () => {
   const { isLoggedIn, login } = useAuth();
   const navigate = useNavigate();
 
@@ -16,7 +16,7 @@ const LoginStudent = () => {
 
   const handleLogin = (user) => {
     const { email, password } = user;
-    fetch("http://localhost:3000/auth/student/login", {
+    fetch("http://localhost:3000/auth/professor/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -35,8 +35,8 @@ const LoginStudent = () => {
           alert(data.error);
         } else {
           alert("Login successful");
-          login(data.token, ROLES.STUDENT);
-          navigate("/profile");
+          login(data.token, ROLES.PROFESSOR);
+          navigate("/dashboard/professor");
         }
       })
       .catch((error) => {
@@ -46,9 +46,9 @@ const LoginStudent = () => {
 
   return (
     <div>
-      <Login onLogin={handleLogin} userType="student" />
+      <Login onLogin={handleLogin} userType="professor" />
     </div>
   );
 };
 
-export default LoginStudent;
+export default LoginProfessor;

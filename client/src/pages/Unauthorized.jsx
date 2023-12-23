@@ -1,8 +1,8 @@
 import { ROLES } from "../../../server/config/constants";
 import { useAuth } from "../hooks/useAuth";
 const Unauthorized = () => {
-  const { role, isLoggedIn } = useAuth();
-  console.log(role, isLoggedIn);
+  const { role } = useAuth();
+
   return (
     <div>
       {role === ROLES.STUDENT && (

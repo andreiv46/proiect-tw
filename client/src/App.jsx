@@ -1,11 +1,14 @@
 import PrivateRoutes from "./routes/PrivateRoutes.jsx";
-import LoginStudent from "./pages/LoginStudent.jsx";
-import LoginProfessor from "./pages/LoginProfessor.jsx";
+import LoginStudent from "./pages/auth/LoginStudent.jsx";
+import LoginProfessor from "./pages/auth/LoginProfessor.jsx";
 import Profile from "./pages/Profile.jsx";
 import Unauthorized from "./pages/Unauthorized.jsx";
-import RegisterProfessor from "./pages/RegisterProfessor.jsx";
-import RegisterStudent from "./pages/RegisterStudent.jsx";
-import Auth from "./pages/Auth.jsx";
+import RegisterProfessor from "./pages/auth/RegisterProfessor.jsx";
+import RegisterStudent from "./pages/auth/RegisterStudent.jsx";
+import Auth from "./pages/auth/Auth.jsx";
+import DashBoardProfessor from "./pages/dashboard/DashboardProfessor.jsx";
+import DashBoardStudent from "./pages/dashboard/DashBoardStudent.jsx";
+import Home from "./pages/Home.jsx";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import NavBar from "./components/NavBar.jsx";
 
@@ -19,13 +22,13 @@ const App = () => {
     <Router>
       <NavBar />
       <Routes>
-        <Route path="/" element={<div>Home</div>} />
+        <Route path="/" element={<Home />} />
         <Route element={<PrivateRoutes allowedRole={ROLES.STUDENT} />}>
           <Route path="/profile" element={<Profile />} />
-          <Route path="/test" element={<div>Test</div>} />
+          <Route path="/dashboard/student" element={<DashBoardStudent />} />
         </Route>
         <Route element={<PrivateRoutes allowedRole={ROLES.PROFESSOR} />}>
-          <Route path="/test2" element={<div>Test2</div>} />
+          <Route path="/dashboard/professor" element={<DashBoardProfessor />} />
         </Route>
         <Route path="/student/login" element={<LoginStudent />}></Route>
         <Route path="/professor/login" element={<LoginProfessor />}></Route>

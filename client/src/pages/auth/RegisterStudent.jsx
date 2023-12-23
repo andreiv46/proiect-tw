@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
-import { useAuth } from "../hooks/useAuth.jsx";
+import { useAuth } from "../../hooks/useAuth.jsx";
 import { useNavigate } from "react-router-dom";
+import { getImageSrc } from "../../../lib/utils.jsx";
+import Input from "../../components/ui/Input.jsx";
+import Button from "../../components/ui/Button.jsx";
 
 const RegisterStudent = ({ userType }) => {
   const [lastName, setLastName] = useState("");
@@ -18,14 +21,6 @@ const RegisterStudent = ({ userType }) => {
       navigate("/logout");
     }
   }, [isLoggedIn, navigate]);
-
-  const getImageSrc = () => {
-    if (userType === "student") {
-      return "/student.svg";
-    } else if (userType === "professor") {
-      return "/professor.svg";
-    }
-  };
 
   const handleLastNameChange = (e) => {
     setLastName(e.target.value);
@@ -97,30 +92,30 @@ const RegisterStudent = ({ userType }) => {
       onSubmit={handleSubmit}
       className="grid grid-cols-1 gap-3 justify-items-center mt-12"
     >
-      <img src={getImageSrc()} alt="Student Icon" className="h-24 w-24" />
-      <input
-        className="bg-gray-200 px-4 py-2 rounded-lg w-64"
+      <img
+        src={getImageSrc(userType)}
+        alt="Student Icon"
+        className="h-24 w-24"
+      />
+      <Input
         type="text"
         value={lastName}
         onChange={handleLastNameChange}
         placeholder="Last Name"
       />
-      <input
-        className="bg-gray-200 px-4 py-2 rounded-lg w-64"
+      <Input
         type="text"
         value={firstName}
         onChange={handleFirstNameChange}
         placeholder="First Name"
       />
-      <input
-        className="bg-gray-200 px-4 py-2 rounded-lg w-64"
+      <Input
         type="email"
         value={email}
         onChange={handleEmailChange}
         placeholder="Email"
       />
-      <input
-        className="bg-gray-200 px-4 py-2 rounded-lg w-64"
+      <Input
         type="password"
         value={password}
         onChange={handlePasswordChange}
@@ -152,6 +147,7 @@ const RegisterStudent = ({ userType }) => {
       <select
         className="bg-gray-200 px-4 py-2 rounded-lg w-64"
         value={year}
+        id="year"
         onChange={handleYearChange}
       >
         <option value={2}>2</option>
@@ -162,6 +158,7 @@ const RegisterStudent = ({ userType }) => {
         Class
       </label>
       <select
+        id="studentClass"
         className="bg-gray-200 px-4 py-2 rounded-lg w-64"
         value={studentClass}
         onChange={handleStudentClassChange}
@@ -173,12 +170,7 @@ const RegisterStudent = ({ userType }) => {
         <option value={"IE-2E"}>IE-2E</option>
       </select>
 
-      <button
-        className="bg-rose-500 hover:bg-rose-600 px-4 py-2 rounded-lg text-white font-bold font-mono"
-        type="submit"
-      >
-        REGISTER
-      </button>
+      <Button type="submit">REGISTER</Button>
     </form>
   );
 };

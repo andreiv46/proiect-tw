@@ -1,5 +1,6 @@
-import { useAuth } from "../hooks/useAuth";
+import { useAuth } from "../hooks/useAuth.jsx";
 import { useNavigate } from "react-router-dom";
+import Button from "./ui/Button.jsx";
 
 const NavBar = () => {
   const { logout, isLoggedIn } = useAuth();
@@ -23,21 +24,21 @@ const NavBar = () => {
       <div className="flex-1 text-center text-4xl">DISERTATIE</div>
       {isLoggedIn ? (
         <div className="flex-1 text-center">
-          <button
-            className="bg-green-500 py-2 px-2 rounded-lg hover:bg-green-600"
+          <Button
+            className="bg-purple-500 px-2 hover:bg-purple-600"
             onClick={handleLogout}
           >
             LOG OUT
-          </button>
+          </Button>
         </div>
       ) : (
         <div className="flex-1 text-center">
-          <button
-            className="bg-green-500 py-2 px-2 rounded-lg hover:bg-green-600"
+          <Button
+            className="bg-purple-500 px-2 hover:bg-purple-600"
             onClick={handleLogin}
           >
             SIGN IN
-          </button>
+          </Button>
         </div>
       )}
     </div>

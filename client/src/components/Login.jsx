@@ -1,15 +1,18 @@
 import { useState } from "react";
+import { getImageSrc } from "../../lib/utils.jsx";
+import Button from "./ui/Button.jsx";
+import Input from "./ui/Input.jsx";
 
 const Login = ({ onLogin, userType }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const getImageSrc = () => {
-    if (userType === "student") {
-      return "/student.svg";
-    } else if (userType === "professor") {
-      return "/professor.svg";
-    }
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
   };
 
   return (
@@ -21,27 +24,24 @@ const Login = ({ onLogin, userType }) => {
           onLogin({ email, password });
         }}
       >
-        <img src={getImageSrc()} alt="Student Icon" className="h-24 w-24" />
-        <input
-          className="bg-gray-200 px-4 py-2 rounded-lg w-64"
+        <img
+          src={getImageSrc(userType)}
+          alt="Student Icon"
+          className="h-24 w-24"
+        />
+        <Input
           type="email"
           placeholder="Email"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={handleEmailChange}
         />
-        <input
-          className="bg-gray-200 px-4 py-2 rounded-lg w-64"
+        <Input
           type="password"
           placeholder="Password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={handlePasswordChange}
         />
-        <button
-          className="bg-rose-500 hover:bg-rose-600 px-4 py-2 rounded-lg text-white font-bold font-mono"
-          type="submit"
-        >
-          LOGIN
-        </button>
+        <Button type="submit">LOGIN</Button>
       </form>
     </div>
   );

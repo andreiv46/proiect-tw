@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
-import { useAuth } from "../hooks/useAuth.jsx";
+import { useAuth } from "../../hooks/useAuth.jsx";
 import { useNavigate } from "react-router-dom";
+import { getImageSrc } from "../../../lib/utils.jsx";
+import Button from "../../components/ui/Button.jsx";
+import Input from "../../components/ui/Input.jsx";
 
 const RegisterProfessor = ({ userType }) => {
   const [lastName, setLastName] = useState("");
@@ -15,14 +18,6 @@ const RegisterProfessor = ({ userType }) => {
       navigate("/logout");
     }
   }, [isLoggedIn, navigate]);
-
-  const getImageSrc = () => {
-    if (userType === "student") {
-      return "/student.svg";
-    } else if (userType === "professor") {
-      return "/professor.svg";
-    }
-  };
 
   const handleLastNameChange = (e) => {
     setLastName(e.target.value);
@@ -78,41 +73,37 @@ const RegisterProfessor = ({ userType }) => {
       onSubmit={handleSubmit}
       className="grid grid-cols-1 gap-3 justify-items-center mt-12"
     >
-      <img src={getImageSrc()} alt="Student Icon" className="h-24 w-24" />
-      <input
-        className="bg-gray-200 px-4 py-2 rounded-lg w-64"
+      <img
+        src={getImageSrc(userType)}
+        alt="Student Icon"
+        className="h-24 w-24"
+      />
+      <Input
         type="text"
-        value={lastName}
+        vlaue={lastName}
         onChange={handleLastNameChange}
         placeholder="Last Name"
       />
-      <input
-        className="bg-gray-200 px-4 py-2 rounded-lg w-64"
+      <Input
         type="text"
         value={firstName}
         onChange={handleFirstNameChange}
         placeholder="First Name"
       />
-      <input
-        className="bg-gray-200 px-4 py-2 rounded-lg w-64"
+      <Input
         type="email"
         value={email}
         onChange={handleEmailChange}
         placeholder="Email"
       />
-      <input
-        className="bg-gray-200 px-4 py-2 rounded-lg w-64"
+
+      <Input
         type="password"
         value={password}
         onChange={handlePasswordChange}
         placeholder="Password"
       />
-      <button
-        className="bg-rose-500 hover:bg-rose-600 px-4 py-2 rounded-lg text-white font-bold font-mono"
-        type="submit"
-      >
-        REGISTER
-      </button>
+      <Button type="submit">REGISTER</Button>
     </form>
   );
 };

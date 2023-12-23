@@ -11,6 +11,10 @@ const EnrollmentSession = db.define("EnrollmentSession", {
     type: Sequelize.INTEGER,
     allowNull: false,
   },
+  professorName: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
   enrolledStudents: {
     type: Sequelize.INTEGER,
     allowNull: true,

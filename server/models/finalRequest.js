@@ -7,7 +7,7 @@ export const FINAL_STATUS = {
   REJECTED: "REJECTED",
 };
 
-export const FinalRequest = db.define("FinalRequest", {
+const FinalRequest = db.define("FinalRequest", {
   finalRequestId: {
     type: Sequelize.INTEGER,
     primaryKey: true,
@@ -34,3 +34,5 @@ export const FinalRequest = db.define("FinalRequest", {
     allowNull: false,
   },
 });
+
+export default FinalRequest;
