@@ -187,7 +187,7 @@ export const validateUserToken = async (req, res) => {
         .json({ message: "Valid token", token, role: decodedToken.role });
     });
   } catch (err) {
-    console.log(err);
+    console.warn(err);
     return res.status(500).json({ message: "Internal server error" });
   }
 };

@@ -42,7 +42,7 @@ const App = () => {
         ></Route>
         <Route path="/unauthorized" element={<Unauthorized />}></Route>
         <Route path="/auth" element={<Auth />}></Route>
-        <Route path="*" element={<div>Page not found</div>}></Route>
+        <Route path="*" element={<div>Page not found!</div>}></Route>
       </Routes>
     </Router>
   );
