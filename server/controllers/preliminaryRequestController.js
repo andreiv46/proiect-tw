@@ -100,24 +100,30 @@ export const acceptPreliminaryRequest = async (req, res) => {
 
 export const rejectPreliminaryRequest = async (req, res) => {
   try {
-    const { preliminaryRequestId, professorJustification } = req.params;
+    const { preliminaryRequestId, professorJustification } = req.body;
+
+    console.log(req.body, "BOFSDFOSBDFSDFSDFJ");
 
     if (!preliminaryRequestId || !professorJustification) {
       return res.status(400).json({ message: "Malformed request" });
     }
 
     const preliminaryRequest = await PreliminaryRequest.findOne({
-      preliminaryRequestId: preliminaryRequestId,
+      where: {
+        preliminaryRequestId: preliminaryRequestId,
+      },
     });
 
     if (!preliminaryRequest) {
       return res.status(404).json({ message: "Request not found" });
     }
 
-    preliminaryRequest.status = PRESTATUS.REJECTED;
-    preliminaryRequest.professorJustification = professorJustification;
+    await preliminaryRequest.update({
+      status: PRESTATUS.REJECTED,
+      professorJustification: professorJustification,
+    });
 
-    await preliminaryRequest.save();
+    console.log(preliminaryRequest);
 
     res.status(200).json({ message: "Preliminary request rejected" });
   } catch (err) {

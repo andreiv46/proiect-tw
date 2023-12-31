@@ -17,13 +17,13 @@ preliminaryRequestRouter.post(
   createPreliminaryRequest
 );
 
-preliminaryRequestRouter.post(
+preliminaryRequestRouter.patch(
   "/accept",
   verifyProfessor,
   acceptPreliminaryRequest
 );
 
-preliminaryRequestRouter.post(
+preliminaryRequestRouter.patch(
   "/reject",
   verifyProfessor,
   rejectPreliminaryRequest
