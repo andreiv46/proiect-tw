@@ -35,7 +35,7 @@ const LoginProfessor = () => {
           alert(data.error);
         } else {
           alert("Login successful");
-          login(data.token, ROLES.PROFESSOR);
+          login(data.token, ROLES.PROFESSOR, data.user);
           navigate("/dashboard/professor");
         }
       })

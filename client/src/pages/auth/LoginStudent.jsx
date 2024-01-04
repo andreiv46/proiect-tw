@@ -35,7 +35,7 @@ const LoginStudent = () => {
           alert(data.error);
         } else {
           alert("Login successful");
-          login(data.token, ROLES.STUDENT);
+          login(data.token, ROLES.STUDENT, data.user);
           navigate("/dashboard/student");
         }
       })

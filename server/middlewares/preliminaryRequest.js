@@ -12,7 +12,7 @@ export const verifyAssignedProfessor = async (req, res, next) => {
 
     if (student.assignedProfessorId) {
       return res
-        .status(400)
+        .status(409)
         .json({ message: "Student already has a professor assigned" });
     }
     next();

@@ -4,6 +4,7 @@ export const AuthContext = React.createContext();
 
 export const AuthProvider = (props) => {
   const [role, setRole] = useState(null);
+  const [user, setUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -30,7 +31,7 @@ export const AuthProvider = (props) => {
             console.log(data.error);
             logout();
           } else {
-            login(data.token, data.role);
+            login(data.token, data.role, data.user);
           }
         })
         .catch((err) => {
@@ -44,20 +45,24 @@ export const AuthProvider = (props) => {
     }
   }, []);
 
-  const login = (token, role) => {
+  const login = (token, role, user) => {
     localStorage.setItem("token", token);
     setRole(role);
     setIsLoggedIn(true);
+    setUser(user);
   };
 
   const logout = () => {
     localStorage.removeItem("token");
     setRole(null);
     setIsLoggedIn(false);
+    setUser(null);
   };
 
   return (
-    <AuthContext.Provider value={{ role, login, logout, isLoggedIn, loading }}>
+    <AuthContext.Provider
+      value={{ role, login, logout, isLoggedIn, loading, user }}
+    >
       {props.children}
     </AuthContext.Provider>
   );

@@ -35,9 +35,6 @@ const Sessions = ({ className }) => {
       {sessions && sessions.length > 0 ? (
         sessions.map((session) => (
           <div key={session.sessionId}>
-            <div className="bg-rose-700 justify-center flex mb-4 rounded-2xl text-white font-bold font-mono">
-              ACTIVE SESSION IN PROGRESS!
-            </div>
             <Card>
               <div>
                 <h1>Session ID: {session.sessionId}</h1>

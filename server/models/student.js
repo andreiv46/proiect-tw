@@ -36,6 +36,10 @@ const Student = db.define("Student", {
     type: Sequelize.INTEGER,
     allowNull: true,
   },
+  requestFilePath: {
+    type: Sequelize.STRING,
+    allowNull: true,
+  },
 });
 
 export default Student;

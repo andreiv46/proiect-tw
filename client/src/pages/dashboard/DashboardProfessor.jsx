@@ -8,16 +8,16 @@ const DashBoardProfessor = () => {
   return (
     <Tabs className="mt-7">
       <Tab label="Sesiuni active">
-        <Sessions className="flex justify-center" />
+        <Sessions className="grid md:grid-cols-2 gap-2 sm:grid-cols-1 mx-auto max-w-screen-lg" />
       </Tab>
       <Tab label="Preliminary Requests">
-        <PreliminaryReqProf className="grid md:grid-cols-2 gap-2 sm:grid-cols-1 mx-auto" />
+        <PreliminaryReqProf className="grid md:grid-cols-2 gap-2 sm:grid-cols-1 mx-auto max-w-screen-lg" />
       </Tab>
       <Tab label="Studenti">
-        <AssignedStudents className="grid md:grid-cols-2 gap-2 sm:grid-cols-1 mx-auto" />
+        <AssignedStudents className="grid md:grid-cols-2 gap-2 sm:grid-cols-1 mx-auto max-w-screen-lg" />
       </Tab>
       <Tab label="Final Requests">
-        <FinalReq className="grid md:grid-cols-2 gap-2 sm:grid-cols-1 mx-auto" />
+        <FinalReq className="grid md:grid-cols-2 gap-2 sm:grid-cols-1 mx-auto max-w-screen-lg" />
       </Tab>
     </Tabs>
   );

@@ -3,11 +3,13 @@ import { Op } from "sequelize";
 
 export const checkActiveSessions = async (req, res, next) => {
   try {
+    const professorId = req.body.professorId;
     const activeEnrollmentSessions = await EnrollmentSession.findAll({
       where: {
         startTime: { [Op.lt]: new Date() },
         endTime: { [Op.gt]: new Date() },
         enrolledStudents: { [Op.lt]: { [Op.col]: "studentsLimit" } },
+        professorId: professorId,
       },
     });
 
@@ -17,8 +19,7 @@ export const checkActiveSessions = async (req, res, next) => {
 
     next();
   } catch (err) {
-    console.log("checkActiveSessions");
     console.warn(err.message);
-    res.status(500).json({ message: "Internal server issues" });
+    return res.status(500).json({ message: "Internal server issues" });
   }
 };

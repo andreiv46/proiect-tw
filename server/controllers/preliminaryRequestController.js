@@ -21,7 +21,7 @@ export const createPreliminaryRequest = async (req, res) => {
     });
 
     if (request) {
-      return res.status(400).json({
+      return res.status(409).json({
         message: "You cannot submit multiple pending requests simultaneously!",
       });
     }
@@ -44,7 +44,7 @@ export const createPreliminaryRequest = async (req, res) => {
       .json({ message: "Preliminary request created", newPreliminaryRequest });
   } catch (err) {
     console.warn(err);
-    res.status(500).json({ message: "Internal server issues" });
+    return res.status(500).json({ message: "Internal server issues" });
   }
 };
 
@@ -73,7 +73,7 @@ export const acceptPreliminaryRequest = async (req, res) => {
     });
 
     if (session.enrolledStudents >= session.studentsLimit) {
-      return res.status(400).json({ message: "Session is full" });
+      return res.status(409).json({ message: "Session is full" });
     }
 
     const student = await Student.findOne({
@@ -94,15 +94,13 @@ export const acceptPreliminaryRequest = async (req, res) => {
     res.status(200).json({ message: "Preliminary request accepted" });
   } catch (err) {
     console.warn(err);
-    res.status(500).json({ message: "Internal server issues" });
+    return res.status(500).json({ message: "Internal server issues" });
   }
 };
 
 export const rejectPreliminaryRequest = async (req, res) => {
   try {
     const { preliminaryRequestId, professorJustification } = req.body;
-
-    console.log(req.body, "BOFSDFOSBDFSDFSDFJ");
 
     if (!preliminaryRequestId || !professorJustification) {
       return res.status(400).json({ message: "Malformed request" });
@@ -123,12 +121,10 @@ export const rejectPreliminaryRequest = async (req, res) => {
       professorJustification: professorJustification,
     });
 
-    console.log(preliminaryRequest);
-
-    res.status(200).json({ message: "Preliminary request rejected" });
+    return res.status(200).json({ message: "Preliminary request rejected" });
   } catch (err) {
     console.warn(err);
-    res.status(500).json({ message: "Internal server issues" });
+    return res.status(500).json({ message: "Internal server issues" });
   }
 };
 
@@ -183,6 +179,6 @@ export const getPreliminaryRequests = async (req, res) => {
     }
   } catch (err) {
     console.warn(err);
-    res.status(500).json({ message: "Internal server issues" });
+    return res.status(500).json({ message: "Internal server issues" });
   }
 };

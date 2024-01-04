@@ -27,3 +27,12 @@ export const formatDate = (dateString) => {
   const date = new Date(dateString);
   return date.toLocaleString(undefined, options);
 };
+
+export const generateRequestFileName = (student, professor) => {
+  const studentName = student.name.split(" ").join("_");
+  const professorName = professor.name.split(" ").join("_");
+  const currentDate = new Date();
+  const date = currentDate.toLocaleDateString().split("/").join("-");
+  const time = currentDate.toLocaleTimeString().split(":").join("-");
+  return `${studentName}-${professorName}-${date}-${time}.pdf`;
+}

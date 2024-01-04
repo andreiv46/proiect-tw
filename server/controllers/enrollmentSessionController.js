@@ -6,8 +6,6 @@ export const createEnrollmentSession = async (req, res) => {
   try {
     const { professorId, startTime, endTime, studentsLimit } = req.body;
 
-    console.log(professorId, startTime, endTime, studentsLimit);
-
     if (!professorId || !startTime || !endTime || !studentsLimit) {
       return res.status(400).json({ message: "Malformed request" });
     }
@@ -32,7 +30,7 @@ export const createEnrollmentSession = async (req, res) => {
       .json({ message: "Enrollment session created", newEnrollmentSession });
   } catch (err) {
     console.warn(err);
-    res.status(500).json({ message: "Internal server issues" });
+    return res.status(500).json({ message: "Internal server issues" });
   }
 };
 
@@ -53,6 +51,6 @@ export const getActiveEnrollmentSessions = async (req, res) => {
     res.status(200).json({ activeEnrollmentSessions });
   } catch (err) {
     console.warn(err);
-    res.status(500).json({ message: "Internal server issues" });
+    return res.status(500).json({ message: "Internal server issues" });
   }
 };
