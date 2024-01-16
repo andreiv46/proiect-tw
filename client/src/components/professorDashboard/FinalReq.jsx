@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Card from "../ui/Card.jsx";
 import Button from "../ui/Button.jsx";
+import toast from "react-hot-toast";
 
 const FinalReq = ({ className }) => {
   const [finalRequests, setfinalRequests] = useState([]);
@@ -15,9 +16,12 @@ const FinalReq = ({ className }) => {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     })
-      .then((res) => {
+      .then(async (res) => {
         if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
+          return res.json().then((data) => {
+            toast.error(data.message || "Something went wrong");
+            throw new Error(`HTTP error! status: ${res.status}`);
+          });
         }
         return res.json();
       })
@@ -30,38 +34,8 @@ const FinalReq = ({ className }) => {
       });
   }, []);
 
-  // const handleAccept = (finalRequestId, e) => {
-  //   e.preventDefault();
-  //   fetch(`http://localhost:3000/final-request/accept/${finalRequestId}`, {
-  //     method: "PATCH",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Authorization: "Bearer " + localStorage.getItem("token"),
-  //     },
-  //     body: JSON.stringify({ finalRequestId }),
-  //   })
-  //     .then((res) => {
-  //       if (!res.ok) {
-  //         throw new Error(`HTTP error! status: ${res.status}`);
-  //       }
-  //       return res.json();
-  //     })
-  //     .then((data) => {
-  //       console.log(data);
-  //       setfinalRequests(
-  //         finalRequests.filter(
-  //           (request) => request.finalRequestId !== finalRequestId
-  //         )
-  //       );
-  //     })
-  //     .catch((error) => {
-  //       console.error("There was an error!", error);
-  //     });
-  // };
-
   const handleAccept = (finalRequestId, e) => {
     e.preventDefault();
-    // Show file upload overlay
     setShowFileUploadOverlay(true);
     setSelectedFinalRequestId(finalRequestId);
   };
@@ -81,14 +55,18 @@ const FinalReq = ({ className }) => {
         body: formData,
       }
     )
-      .then((res) => {
+      .then(async (res) => {
         if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
+          return res.json().then((data) => {
+            toast.error(data.message || "Something went wrong");
+            throw new Error(`HTTP error! status: ${res.status}`);
+          });
         }
         return res.json();
       })
       .then((data) => {
         console.log(data);
+        toast.success(data.message);
         setfinalRequests(
           finalRequests.filter(
             (request) => request.finalRequestId !== selectedFinalRequestId
@@ -114,14 +92,18 @@ const FinalReq = ({ className }) => {
       },
       body: JSON.stringify({ finalRequestId }),
     })
-      .then((res) => {
+      .then(async (res) => {
         if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
+          return res.json().then((data) => {
+            toast.error(data.message || "Something went wrong");
+            throw new Error(`HTTP error! status: ${res.status}`);
+          });
         }
         return res.json();
       })
       .then((data) => {
         console.log(data);
+        toast.success(data.message);
         setfinalRequests(
           finalRequests.filter(
             (request) => request.finalRequestId !== finalRequestId
@@ -142,9 +124,12 @@ const FinalReq = ({ className }) => {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     })
-      .then((res) => {
+      .then(async (res) => {
         if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
+          return res.json().then((data) => {
+            toast.error(data.message || "Something went wrong");
+            throw new Error(`HTTP error! status: ${res.status}`);
+          });
         }
         return res.blob();
       })

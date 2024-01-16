@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Card from "../ui/Card.jsx";
 import Button from "../ui/Button.jsx";
 import { formatDate } from "../../../lib/utils.jsx";
+import toast from "react-hot-toast";
 
 const Sessions = ({ className }) => {
   const [sessions, setSessions] = useState(null);
@@ -18,9 +19,12 @@ const Sessions = ({ className }) => {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     })
-      .then((res) => {
+      .then(async (res) => {
         if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
+          return res.json().then((data) => {
+            toast.error(data.message || "Something went wrong");
+            throw new Error(`HTTP error! status: ${res.status}`);
+          });
         }
         return res.json();
       })
@@ -56,15 +60,18 @@ const Sessions = ({ className }) => {
         description: description,
       }),
     })
-      .then((res) => {
+      .then(async (res) => {
         if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
+          return res.json().then((data) => {
+            toast.error(data.message || "Something went wrong");
+            throw new Error(`HTTP error! status: ${res.status}`);
+          });
         }
         return res.json();
       })
       .then((data) => {
         console.log(data);
-        console.log(data.message);
+        toast.success(data.message);
         setShowOverlay(false);
         setTitle("");
         setDescription("");
@@ -135,7 +142,7 @@ const Sessions = ({ className }) => {
                 CONFIRM ENROLL
               </Button>
               <Button
-                className="bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded"
+                className="bg-red-500 hover:bg-red-600 px-4 py-2 rounded"
                 type="button"
                 onClick={handleEnrollCancel}
               >

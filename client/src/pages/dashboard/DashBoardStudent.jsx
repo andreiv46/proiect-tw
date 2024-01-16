@@ -5,6 +5,8 @@ import { useAuth } from "../../hooks/useAuth.jsx";
 import { useEffect, useState } from "react";
 import RequestGenerator from "../../components/studentDashboard/RequestGenerator.jsx";
 import RequestUploader from "../../components/studentDashboard/RequestUploader.jsx";
+import SignedRequest from "../../components/studentDashboard/SignedRequest.jsx";
+import toast from "react-hot-toast";
 
 const DahsboardStudent = () => {
   const { user } = useAuth();
@@ -25,9 +27,12 @@ const DahsboardStudent = () => {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     })
-      .then((res) => {
+      .then(async (res) => {
         if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
+          return res.json().then((data) => {
+            toast.error(data.message || "Something went wrong");
+            throw new Error(`HTTP error! status: ${res.status}`);
+          });
         }
         return res.json();
       })
@@ -65,6 +70,9 @@ const DahsboardStudent = () => {
         </Tab>
         <Tab label="Incarca cererea">
           <RequestUploader />
+        </Tab>
+        <Tab label="Cerere">
+          <SignedRequest />
         </Tab>
       </Tabs>
     </>

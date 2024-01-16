@@ -14,7 +14,7 @@ export const checkActiveSessions = async (req, res, next) => {
     });
 
     if (activeEnrollmentSessions.length > 0) {
-      return res.status(400).json({ message: "Active sessions already exist" });
+      return res.status(409).json({ message: "Active sessions already exist" });
     }
 
     next();

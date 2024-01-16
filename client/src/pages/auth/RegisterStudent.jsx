@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { getImageSrc } from "../../../lib/utils.jsx";
 import Input from "../../components/ui/Input.jsx";
 import Button from "../../components/ui/Button.jsx";
+import toast from "react-hot-toast";
 
 const RegisterStudent = ({ userType }) => {
   const [lastName, setLastName] = useState("");
@@ -22,33 +23,9 @@ const RegisterStudent = ({ userType }) => {
     }
   }, [isLoggedIn, navigate]);
 
-  const handleLastNameChange = (e) => {
-    setLastName(e.target.value);
-  };
-
-  const handleFirstNameChange = (e) => {
-    setFirstName(e.target.value);
-  };
-
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
-
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-  };
-
-  const handleMajorChange = (e) => {
-    setMajor(e.target.value);
-  };
-
   const handleYearChange = (e) => {
     const yearInt = parseInt(e.target.value);
     setYear(yearInt);
-  };
-
-  const handleStudentClassChange = (e) => {
-    setStudentClass(e.target.value);
   };
 
   const handleSubmit = (e) => {
@@ -67,20 +44,19 @@ const RegisterStudent = ({ userType }) => {
         year,
       }),
     })
-      .then((res) => {
+      .then(async (res) => {
         if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
+          return res.json().then((data) => {
+            toast.error(data.message || "Something went wrong");
+            throw new Error(`HTTP error! status: ${res.status}`);
+          });
         }
         return res.json();
       })
       .then((data) => {
         console.log(data);
-        if (data.error) {
-          alert(data.error);
-        } else {
-          alert("Registration successful");
-          navigate("/student/login");
-        }
+        toast.success("Registration successful");
+        navigate("/student/login");
       })
       .catch((error) => {
         console.error("There was an error!", error);
@@ -100,32 +76,32 @@ const RegisterStudent = ({ userType }) => {
       <Input
         type="text"
         value={lastName}
-        onChange={handleLastNameChange}
+        onChange={(e) => setLastName(e.target.value)}
         placeholder="Last Name"
       />
       <Input
         type="text"
         value={firstName}
-        onChange={handleFirstNameChange}
+        onChange={(e) => setFirstName(e.target.value)}
         placeholder="First Name"
       />
       <Input
         type="email"
         value={email}
-        onChange={handleEmailChange}
+        onChange={(e) => setEmail(e.target.value)}
         placeholder="Email"
       />
       <Input
         type="password"
         value={password}
-        onChange={handlePasswordChange}
+        onChange={(e) => setPassword(e.target.value)}
         placeholder="Password"
       />
 
       <select
         className="bg-gray-200 px-4 py-2 rounded-lg w-64"
         value={major}
-        onChange={handleMajorChange}
+        onChange={(e) => setMajor(e.target.value)}
       >
         <option value={"Informatica Economica"}>Informatica Economica</option>
         <option value={"Cibernetica si Economie Cantitativa"}>
@@ -141,7 +117,7 @@ const RegisterStudent = ({ userType }) => {
         </option>
       </select>
 
-      <label htmlFor="year" className="font-bold text-white block mt-2">
+      <label htmlFor="year" className="block text-sm font-medium text-white">
         Year
       </label>
       <select
@@ -154,14 +130,17 @@ const RegisterStudent = ({ userType }) => {
         <option value={3}>3</option>
       </select>
 
-      <label htmlFor="studentClass" className="font-bold text-white block mt-2">
+      <label
+        htmlFor="studentClass"
+        className="block text-sm font-medium text-white"
+      >
         Class
       </label>
       <select
         id="studentClass"
         className="bg-gray-200 px-4 py-2 rounded-lg w-64"
         value={studentClass}
-        onChange={handleStudentClassChange}
+        onChange={(e) => setStudentClass(e.target.value)}
       >
         <option value={"IE-2A"}>IE-2A</option>
         <option value={"IE-2B"}>IE-2B</option>

@@ -13,6 +13,8 @@ dist-ssr
 *.local
 uploads/student/*
 uploads/professor/*
+*.db
+.env
 
 # Editor directories and files
 .vscode/*

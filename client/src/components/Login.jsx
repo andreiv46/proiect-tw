@@ -7,14 +7,6 @@ const Login = ({ onLogin, userType }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
-
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-  };
-
   return (
     <div>
       <form
@@ -33,13 +25,13 @@ const Login = ({ onLogin, userType }) => {
           type="email"
           placeholder="Email"
           value={email}
-          onChange={handleEmailChange}
+          onChange={(e) => setEmail(e.target.value)}
         />
         <Input
           type="password"
           placeholder="Password"
           value={password}
-          onChange={handlePasswordChange}
+          onChange={(e) => setPassword(e.target.value)}
         />
         <Button type="submit">LOGIN</Button>
       </form>

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Card from "../ui/Card.jsx";
+import toast from "react-hot-toast";
 
 const AssignedStudents = ({ className }) => {
   const [students, setStudents] = useState([]);
@@ -12,9 +13,12 @@ const AssignedStudents = ({ className }) => {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     })
-      .then((res) => {
+      .then(async (res) => {
         if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
+          return res.json().then((data) => {
+            toast.error(data.message || "Something went wrong");
+            throw new Error(`HTTP error! status: ${res.status}`);
+          });
         }
         return res.json();
       })
@@ -37,6 +41,11 @@ const AssignedStudents = ({ className }) => {
             <p>Student email: {student.email}</p>
             <p>Student major: {student.major}</p>
             <p>Student class: {student.studentClass}</p>
+            {student.requestFilePath ? (
+              <p>Student has uploaded the final request</p>
+            ) : (
+              <p>Student has not uploaded a request.</p>
+            )}
           </Card>
         ))
       ) : (

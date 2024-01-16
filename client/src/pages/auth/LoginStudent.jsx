@@ -3,6 +3,7 @@ import Login from "../../components/Login";
 import { useAuth } from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import toast from "react-hot-toast";
 
 const LoginStudent = () => {
   const { isLoggedIn, login } = useAuth();
@@ -23,21 +24,20 @@ const LoginStudent = () => {
       },
       body: JSON.stringify({ email, password }),
     })
-      .then((res) => {
+      .then(async (res) => {
         if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
+          return res.json().then((data) => {
+            toast.error(data.message || "Something went wrong");
+            throw new Error(`HTTP error! status: ${res.status}`);
+          });
         }
         return res.json();
       })
       .then((data) => {
         console.log(data);
-        if (data.error) {
-          alert(data.error);
-        } else {
-          alert("Login successful");
-          login(data.token, ROLES.STUDENT, data.user);
-          navigate("/dashboard/student");
-        }
+        toast.success("Login successful");
+        login(data.token, ROLES.STUDENT, data.user);
+        navigate("/dashboard/student");
       })
       .catch((error) => {
         console.error("There was an error!", error);

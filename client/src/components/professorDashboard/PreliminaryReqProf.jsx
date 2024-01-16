@@ -2,6 +2,7 @@ import { cn } from "../../../lib/utils.jsx";
 import Card from "../ui/Card.jsx";
 import Button from "../ui/Button.jsx";
 import { useState, useEffect } from "react";
+import toast from "react-hot-toast";
 
 const PreliminaryReqProf = ({ className }) => {
   const [preliminaryRequests, setPreliminaryRequests] = useState(null);
@@ -19,14 +20,18 @@ const PreliminaryReqProf = ({ className }) => {
       },
       body: JSON.stringify({ preliminaryRequestId }),
     })
-      .then((res) => {
+      .then(async (res) => {
         if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
+          return res.json().then((data) => {
+            toast.error(data.message || "Something went wrong");
+            throw new Error(`HTTP error! status: ${res.status}`);
+          });
         }
         return res.json();
       })
       .then((data) => {
         console.log(data);
+        toast.success("Preliminary request accepted");
         setPreliminaryRequests(
           preliminaryRequests.filter(
             (request) => request.preliminaryRequestId !== preliminaryRequestId
@@ -46,9 +51,12 @@ const PreliminaryReqProf = ({ className }) => {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     })
-      .then((res) => {
+      .then(async (res) => {
         if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
+          return res.json().then((data) => {
+            toast.error(data.message || "Something went wrong");
+            throw new Error(`HTTP error! status: ${res.status}`);
+          });
         }
         return res.json();
       })
@@ -82,13 +90,17 @@ const PreliminaryReqProf = ({ className }) => {
         professorJustification: justification,
       }),
     })
-      .then((res) => {
+      .then(async (res) => {
         if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
+          return res.json().then((data) => {
+            toast.error(data.message || "Something went wrong");
+            throw new Error(`HTTP error! status: ${res.status}`);
+          });
         }
         return res.json();
       })
       .then((data) => {
+        toast.success("Preliminary request rejected");
         console.log(data);
         setPreliminaryRequests(
           preliminaryRequests.filter(

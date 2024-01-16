@@ -7,6 +7,7 @@ import {
   rejectFinalRequest,
   getFinalRequestPdf,
   acceptFinalRequest,
+  getStudentFinalRequest,
 } from "../controllers/finalRequestController.js";
 import { uploadStudent, uploadProfessor } from "../config/multer.js";
 
@@ -25,7 +26,9 @@ finalRequestRoutes.post(
   createFinalRequest
 );
 
-finalRequestRoutes.delete("/student/delete", deleteFinalRequest);
+finalRequestRoutes.get("/student", verifyStudent, getStudentFinalRequest);
+
+//finalRequestRoutes.delete("/student", deleteFinalRequest);
 
 finalRequestRoutes.patch(
   "/reject/:finalRequestId",

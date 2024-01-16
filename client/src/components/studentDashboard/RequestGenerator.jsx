@@ -90,7 +90,7 @@ const RequestGenerator = ({ student, professor }) => {
     setTitle(e.target.value);
   };
   return (
-    <div className="flex flex-col items-center bg-slate-300 shadow-md rounded-lg p-8">
+    <div className="flex flex-col items-center bg-slate-400 shadow-md rounded-lg p-8">
       <div className="flex justify-center items-center w-full max-w-md">
         <Input
           type="text"

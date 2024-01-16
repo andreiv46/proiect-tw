@@ -10,14 +10,14 @@ const DashBoardProfessor = () => {
       <Tab label="Sesiuni active">
         <Sessions className="grid md:grid-cols-2 gap-2 sm:grid-cols-1 mx-auto max-w-screen-lg" />
       </Tab>
-      <Tab label="Preliminary Requests">
+      <Tab label="Cereri preliminare">
         <PreliminaryReqProf className="grid md:grid-cols-2 gap-2 sm:grid-cols-1 mx-auto max-w-screen-lg" />
+      </Tab>
+      <Tab label="Cereri finale">
+        <FinalReq className="grid md:grid-cols-2 gap-2 sm:grid-cols-1 mx-auto max-w-screen-lg" />
       </Tab>
       <Tab label="Studenti">
         <AssignedStudents className="grid md:grid-cols-2 gap-2 sm:grid-cols-1 mx-auto max-w-screen-lg" />
-      </Tab>
-      <Tab label="Final Requests">
-        <FinalReq className="grid md:grid-cols-2 gap-2 sm:grid-cols-1 mx-auto max-w-screen-lg" />
       </Tab>
     </Tabs>
   );

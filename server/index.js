@@ -6,16 +6,12 @@ import enrollmentSessionRouter from "./routes/enrollmentSessionRoutes.js";
 import professorRouter from "./routes/professorRoutes.js";
 import finalRequestRoutes from "./routes/finalRequestRoutes.js";
 import { PORT } from "./config/constants.js";
-import { verifyProfessor, verifyStudent } from "./middlewares/auth.js";
+
 const app = express();
 
 app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
-
-app.get("/", verifyStudent, (req, res) => {
-  res.status(200).json({ message: "Maaaai" });
-});
 
 app.use("/auth", authRouter);
 app.use("/preliminary-request", preliminaryRequestRouter);

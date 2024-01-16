@@ -9,7 +9,7 @@ import {
 const enrollmentSessionRouter = express.Router();
 
 enrollmentSessionRouter.post(
-  "/create",
+  "/",
   verifyProfessor,
   checkActiveSessions,
   createEnrollmentSession

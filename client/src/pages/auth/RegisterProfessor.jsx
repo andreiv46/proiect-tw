@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { getImageSrc } from "../../../lib/utils.jsx";
 import Button from "../../components/ui/Button.jsx";
 import Input from "../../components/ui/Input.jsx";
+import toast from "react-hot-toast";
 
 const RegisterProfessor = ({ userType }) => {
   const [lastName, setLastName] = useState("");
@@ -19,22 +20,6 @@ const RegisterProfessor = ({ userType }) => {
     }
   }, [isLoggedIn, navigate]);
 
-  const handleLastNameChange = (e) => {
-    setLastName(e.target.value);
-  };
-
-  const handleFirstNameChange = (e) => {
-    setFirstName(e.target.value);
-  };
-
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
-
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     fetch("http://localhost:3000/auth/professor/register", {
@@ -48,20 +33,19 @@ const RegisterProfessor = ({ userType }) => {
         password,
       }),
     })
-      .then((res) => {
+      .then(async (res) => {
         if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
+          return res.json().then((data) => {
+            toast.error(data.message || "Something went wrong");
+            throw new Error(`HTTP error! status: ${res.status}`);
+          });
         }
         return res.json();
       })
       .then((data) => {
         console.log(data);
-        if (data.error) {
-          alert(data.error);
-        } else {
-          alert("Registration successful");
-          navigate("/professor/login");
-        }
+        toast.success("Registration successful");
+        navigate("/professor/login");
       })
       .catch((error) => {
         console.error("There was an error!", error);
@@ -81,26 +65,26 @@ const RegisterProfessor = ({ userType }) => {
       <Input
         type="text"
         vlaue={lastName}
-        onChange={handleLastNameChange}
+        onChange={(e) => setLastName(e.target.value)}
         placeholder="Last Name"
       />
       <Input
         type="text"
         value={firstName}
-        onChange={handleFirstNameChange}
+        onChange={(e) => setFirstName(e.target.value)}
         placeholder="First Name"
       />
       <Input
         type="email"
         value={email}
-        onChange={handleEmailChange}
+        onChange={(e) => setEmail(e.target.value)}
         placeholder="Email"
       />
 
       <Input
         type="password"
         value={password}
-        onChange={handlePasswordChange}
+        onChange={(e) => setPassword(e.target.value)}
         placeholder="Password"
       />
       <Button type="submit">REGISTER</Button>

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Card from "../ui/Card.jsx";
+import toast from "react-hot-toast";
 
 const PreliminaryReqStud = ({ className }) => {
   const [preliminaryRequests, setPreliminaryRequests] = useState([]);
@@ -12,9 +13,12 @@ const PreliminaryReqStud = ({ className }) => {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     })
-      .then((res) => {
+      .then(async (res) => {
         if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
+          return res.json().then((data) => {
+            toast.error(data.message || "Something went wrong");
+            throw new Error(`HTTP error! status: ${res.status}`);
+          });
         }
         return res.json();
       })

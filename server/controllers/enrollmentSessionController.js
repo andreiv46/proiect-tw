@@ -4,9 +4,9 @@ import { Op } from "sequelize";
 
 export const createEnrollmentSession = async (req, res) => {
   try {
-    const { professorId, startTime, endTime, studentsLimit } = req.body;
+    const { professorId, endTime, studentsLimit } = req.body;
 
-    if (!professorId || !startTime || !endTime || !studentsLimit) {
+    if (!professorId || !endTime || !studentsLimit) {
       return res.status(400).json({ message: "Malformed request" });
     }
 
@@ -15,7 +15,7 @@ export const createEnrollmentSession = async (req, res) => {
     const newEnrollmentSession = await EnrollmentSession.create({
       professorId: professorId,
       professorName: professor.name,
-      startTime: startTime,
+      startTime: new Date(),
       endTime: endTime,
       enrolledStudents: 0,
       studentsLimit: studentsLimit,
