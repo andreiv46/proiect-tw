@@ -4,6 +4,7 @@ import Professor from "../models/professor.js";
 import { Op } from "sequelize";
 import path from "path";
 import { sendEmail } from "../config/transporter.js";
+import users from "../config/io.js";
 
 export const getProfessorFinalRequests = async (req, res) => {
   try {
@@ -222,6 +223,15 @@ export const acceptFinalRequest = async (req, res) => {
       "Cerere acceptata",
       "Cererea ta finala a fost acceptata. Cererea poate fi descarcata de pe platforma."
     );
+
+    if (users[student.studentId]) {
+      const io = req.app.get("io");
+      const { hashedPassword, ...studentData } = student.dataValues;
+      io.to(users[student.studentId]).emit(
+        "finalRequestAccepted",
+        studentData
+      );
+    }
 
     return res.status(200).json({ message: "Final request accepted", student });
   } catch (err) {

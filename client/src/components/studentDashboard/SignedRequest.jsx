@@ -7,6 +7,8 @@ const SignedRequest = () => {
   const { user } = useAuth();
   const [file, setFile] = useState(null);
 
+  console.log(user);
+
   useEffect(() => {
     if (user.requestFilePath) {
       console.log(user);

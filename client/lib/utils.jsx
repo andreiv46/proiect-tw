@@ -21,7 +21,7 @@ export const formatDate = (dateString) => {
     hour: "2-digit",
     minute: "2-digit",
     second: "2-digit",
-    hour12: false, 
+    hour12: false,
   };
 
   const date = new Date(dateString);
@@ -29,10 +29,12 @@ export const formatDate = (dateString) => {
 };
 
 export const generateRequestFileName = (student, professor) => {
-  const studentName = student.name.split(" ").join("_");
-  const professorName = professor.name.split(" ").join("_");
+  const studentName = (student?.name || "UnknownStudent").split(" ").join("_");
+  const professorName = (professor?.name || "UnknownProfessor")
+    .split(" ")
+    .join("_");
   const currentDate = new Date();
   const date = currentDate.toLocaleDateString().split("/").join("-");
   const time = currentDate.toLocaleTimeString().split(":").join("-");
   return `${studentName}-${professorName}-${date}-${time}.pdf`;
-}
+};

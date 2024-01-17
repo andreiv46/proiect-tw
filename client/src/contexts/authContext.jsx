@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { ROLES } from "../../../server/config/constants";
+import socketIO from "socket.io-client";
 
 export const AuthContext = React.createContext();
 
@@ -7,6 +9,7 @@ export const AuthProvider = (props) => {
   const [user, setUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
+  const socketRef = useRef();
 
   useEffect(() => {
     setLoading(true);
@@ -27,12 +30,7 @@ export const AuthProvider = (props) => {
           return res.json();
         })
         .then((data) => {
-          if (data.error) {
-            console.log(data.error);
-            logout();
-          } else {
-            login(data.token, data.role, data.user);
-          }
+          login(data.token, data.role, data.user);
         })
         .catch((err) => {
           console.log(err);
@@ -44,6 +42,34 @@ export const AuthProvider = (props) => {
       setLoading(false);
     }
   }, []);
+
+  useEffect(() => {
+    const connectSocket = async () => {
+      if (isLoggedIn && role === ROLES.STUDENT) {
+        console.log("connecting to socket");
+        socketRef.current = socketIO.connect("http://localhost:3000", {
+          query: { userId: user.studentId },
+        });
+        socketRef.current.on("preliminaryRequestAccepted", (data) =>
+          setUser(data)
+        );
+        socketRef.current.on("finalRequestAccepted", (data) => setUser(data));
+      } else if (!isLoggedIn && socketRef.current) {
+        console.log("disconnecting from socket");
+        socketRef.current.disconnect();
+        socketRef.current = null;
+      }
+    };
+
+    connectSocket();
+
+    return () => {
+      if (socketRef.current) {
+        socketRef.current.disconnect();
+        socketRef.current = null;
+      }
+    };
+  }, [isLoggedIn, role, user]);
 
   const login = (token, role, user) => {
     localStorage.setItem("token", token);
@@ -57,6 +83,10 @@ export const AuthProvider = (props) => {
     setRole(null);
     setIsLoggedIn(false);
     setUser(null);
+    if (socketRef.current) {
+      socketRef.current.disconnect();
+      socketRef.current = null;
+    }
   };
 
   return (

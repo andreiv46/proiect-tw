@@ -1,8 +1,8 @@
 import PreliminaryRequest, { PRESTATUS } from "../models/preliminaryRequest.js";
-import FinalRequest, { FINAL_STATUS } from "../models/finalRequest.js";
 import Student from "../models/student.js";
 import EnrollmentSession from "../models/enrollmentSession.js";
 import { Op } from "sequelize";
+import users from "../config/io.js";
 
 export const createPreliminaryRequest = async (req, res) => {
   try {
@@ -90,6 +90,15 @@ export const acceptPreliminaryRequest = async (req, res) => {
 
     session.enrolledStudents += 1;
     await session.save();
+
+    if (users[student.studentId]) {
+      const io = req.app.get("io");
+      const { hashedPassword, ...studentData } = student.dataValues;
+      io.to(users[student.studentId]).emit(
+        "preliminaryRequestAccepted",
+        studentData
+      );
+    }
 
     res.status(200).json({ message: "Preliminary request accepted" });
   } catch (err) {

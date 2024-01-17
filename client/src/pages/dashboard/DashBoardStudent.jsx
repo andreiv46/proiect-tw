@@ -10,7 +10,7 @@ import toast from "react-hot-toast";
 
 const DahsboardStudent = () => {
   const { user } = useAuth();
-  const [professor, setProfessor] = useState(null);
+  const [professor, setProfessor] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -44,7 +44,7 @@ const DahsboardStudent = () => {
       .catch((error) => {
         console.error("There was an error!", error);
       });
-  }, [user.assignedProfessorId]);
+  }, [user]);
 
   if (isLoading) {
     return <h1>Loading...</h1>;
