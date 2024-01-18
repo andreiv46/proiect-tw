@@ -43,14 +43,18 @@ const SignedRequest = () => {
     <div>
       {user.requestFilePath ? (
         <div className="flex justify-center flex-col items-center bg-slate-400">
-          <p className="mb-8">Profesorul a semnat cererea</p>
+          <p className="mb-8">
+            Cererea ta este semnata de catre profesorul coordonator.
+          </p>
           <a href={file} download="signedRequest.pdf">
             <Button className="mb-4">DOWNLOAD</Button>
           </a>
         </div>
       ) : (
         <div>
-          <p>Profesorul inca nu a semnat cererea</p>
+          <p>
+            Cererea ta nu a fost inca semnata de catre profesorul coordonator.
+          </p>
         </div>
       )}
     </div>

@@ -151,7 +151,7 @@ const Sessions = ({ className }) => {
                   type="button"
                   onClick={handleCreateSession}
                 >
-                  CONFIRM ENROLL
+                  CONFIRM
                 </Button>
                 <Button
                   className="bg-red-500 hover:bg-red-600 px-4 py-2 rounded"

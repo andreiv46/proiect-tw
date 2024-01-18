@@ -144,6 +144,7 @@ const FinalReq = ({ className }) => {
       })
       .catch((error) => {
         console.error("Error downloading PDF:", error);
+        toast.error("Error downloading PDF");
       });
   };
 

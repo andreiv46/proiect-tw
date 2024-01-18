@@ -44,24 +44,20 @@ export const AuthProvider = (props) => {
   }, []);
 
   useEffect(() => {
-    const connectSocket = async () => {
-      if (isLoggedIn && role === ROLES.STUDENT) {
-        console.log("connecting to socket");
-        socketRef.current = socketIO.connect("http://localhost:3000", {
-          query: { userId: user.studentId },
-        });
-        socketRef.current.on("preliminaryRequestAccepted", (data) =>
-          setUser(data)
-        );
-        socketRef.current.on("finalRequestAccepted", (data) => setUser(data));
-      } else if (!isLoggedIn && socketRef.current) {
-        console.log("disconnecting from socket");
-        socketRef.current.disconnect();
-        socketRef.current = null;
-      }
-    };
-
-    connectSocket();
+    if (isLoggedIn && role === ROLES.STUDENT) {
+      console.log("connecting to socket");
+      socketRef.current = socketIO.connect("http://localhost:3000", {
+        query: { userId: user.studentId },
+      });
+      socketRef.current.on("preliminaryRequestAccepted", (data) =>
+        setUser(data)
+      );
+      socketRef.current.on("finalRequestAccepted", (data) => setUser(data));
+    } else if (!isLoggedIn && socketRef.current) {
+      console.log("disconnecting from socket");
+      socketRef.current.disconnect();
+      socketRef.current = null;
+    }
 
     return () => {
       if (socketRef.current) {

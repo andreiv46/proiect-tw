@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Card from "../ui/Card.jsx";
 import toast from "react-hot-toast";
+import Button from "../ui/Button.jsx";
 
 const AssignedStudents = ({ className }) => {
   const [students, setStudents] = useState([]);
@@ -31,6 +32,41 @@ const AssignedStudents = ({ className }) => {
       });
   }, []);
 
+  const handleDownloadPdf = (studentId) => {
+    fetch(
+      `http://localhost:3000/professor/final-request/student/${studentId}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/pdf",
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      }
+    )
+      .then(async (res) => {
+        if (!res.ok) {
+          return res.json().then((data) => {
+            toast.error(data.message || "Something went wrong");
+            throw new Error(`HTTP error! status: ${res.status}`);
+          });
+        }
+        return res.blob();
+      })
+      .then((blob) => {
+        const url = window.URL.createObjectURL(new Blob([blob]));
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `finalRequest.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      })
+      .catch((error) => {
+        console.error("Error downloading PDF:", error);
+        toast.error("Error downloading PDF");
+      });
+  };
+
   return (
     <div className={className}>
       {students && students.length > 0 ? (
@@ -42,9 +78,18 @@ const AssignedStudents = ({ className }) => {
             <p>Student major: {student.major}</p>
             <p>Student class: {student.studentClass}</p>
             {student.requestFilePath ? (
-              <p>Student has uploaded the final request</p>
+              <Button
+                className="bg-green-500 hover:bg-green-600"
+                onClick={(e) => handleDownloadPdf(student.studentId)}
+              >
+                <img
+                  src="/download-arrow-from-cloud-storage-svgrepo-com.svg"
+                  alt="Student Icon"
+                  className="h-4 w-4 opacity-60"
+                />
+              </Button>
             ) : (
-              <p>Student has not uploaded a request.</p>
+              <p>Studentul nu are nicio cerere finala aprobata</p>
             )}
           </Card>
         ))

@@ -1,6 +1,6 @@
 import { Server } from "socket.io";
 
-let users = {};
+export let users = {};
 
 export const setupSocket = (httpServer) => {
   const io = new Server(httpServer, {
@@ -23,5 +23,3 @@ export const setupSocket = (httpServer) => {
 
   return io;
 };
-
-export default users;

@@ -2,7 +2,7 @@ import PreliminaryRequest, { PRESTATUS } from "../models/preliminaryRequest.js";
 import Student from "../models/student.js";
 import EnrollmentSession from "../models/enrollmentSession.js";
 import { Op } from "sequelize";
-import users from "../config/io.js";
+import { users } from "../config/io.js";
 
 export const createPreliminaryRequest = async (req, res) => {
   try {
